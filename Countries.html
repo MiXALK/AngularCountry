@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+
+<!--НА ИЗУЧЕНИЕ ПОТРАЧЕНО 12ч. -->
+
+<html ng-app="countryApp">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Countries</title>
+
+        <script src="Libraries/angular.js"></script>
+        <link href="Libraries/bootstrap-theme.css" rel="stylesheet" />
+        <link href="Libraries/bootstrap.css" rel="stylesheet" />
+
+        <script>
+            angular.module("countryApp", [])
+            .controller("countryAppCtrl", function ($scope, $http) {
+
+                // $http сервис для работы с AJAX запросами
+
+                $scope.sendRequest = function () {
+                    // $http.get - выполняем HTTP GET запрос к указанному ресурсу.
+                    $http.get("https://restcountries.eu/rest/v1/all").success(function (data) {
+                        // при успешной обработке запроса передаем данные в scope
+                        $scope.countries = data;
+                    })
+                }
+
+            });
+        </script>
+    </head>
+    <body ng-controller="countryAppCtrl">
+        <div class="panel panel-primary" ng-controller="countryAppCtrl">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h3 class="panel-heading">Country codes</h3>
+                    <button class="btn btn-success btn-block" ng-click="sendRequest()">
+                        <h2>Start</h2>
+                    </button>
+                </div>
+            </div>
+            <div>
+                <input type="text" ng-model="f.numericCode" placeholder="Enter country code"/>
+                <table class="table table-striped">
+                    <tr>
+                        <th>Страна</th>
+                        <th>Код страны</th>
+                    </tr>
+                    <tr ng-repeat="country in countries | orderBy: 'numericCode' | filter:f">
+                        <td>{{country.name}}</td>
+                        <td>{{country.numericCode}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="panel-heading">
+            <h5><a href="https://www.linkedin.com/in/mikhail-kantseliarchyk-92614b119?trk=hp-identity-name">Copyright © 2016 Mixal</a></h5>
+        </div> <!-- Конец templatemo_footer_wrapper -->
+    </body>
+</html>
